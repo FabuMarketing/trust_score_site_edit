@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import pandas as pd
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import os
 
 # Create the Flask application instance
 app = Flask(__name__)
@@ -19,12 +20,14 @@ def get_sheet_data():
     try:
         scope = ["https://spreadsheets.google.com/feeds",
                  "https://www.googleapis.com/auth/drive"]
-        creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+        # Use the secret file path provided by Render
+        creds_path = "/etc/secrets/credentials.json"
+        creds = ServiceAccountCredentials.from_json_keyfile_name(creds_path, scope)
         client = gspread.authorize(creds)
 
         # Open the Google Sheet by URL
         sheet = client.open_by_url(
-            "https://docs.google.com/spreadsheets/d/1b4_yuhEeLN-u21KHLEJOenDa1EdG6iQXpUi8ASXYZHk/edit?gid=1170846120#gid=1170846120"
+            "https://docs.google.com/spreadsheets/d/1b4_yuhEeLN-u21KHLEJOenDa1EdG6iQXpUi8ASXYZHk/edit?gid=1170846120"
         ).worksheet("Raw Data")  # Open Raw Data Sheet
         data = sheet.get_all_records()
 
