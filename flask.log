@@ -1,0 +1,64 @@
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+127.0.0.1 - - [15/Apr/2025 12:20:50] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:04:51] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:04:51] "GET /static/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:04:54] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:04:59] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:05:30] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:05:31] "GET /static/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:21] "GET /autocomplete?query=ca HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:22] "GET /autocomplete?query=cap HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:22] "GET /autocomplete?query=c HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:22] "GET /autocomplete?query=capi HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:22] "GET /autocomplete?query=capi HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:22] "GET /autocomplete?query=capi HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:23] "GET /autocomplete?query=capit HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:23] "GET /autocomplete?query=capita HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:24] "GET /autocomplete?query=capital HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:24] "GET /autocomplete?query=capital HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:24] "GET /autocomplete?query=capital; HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:27] "GET /autocomplete?query=capita HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:31] "POST /result HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:31] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:32] "GET /static/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:38] "GET /autocomplete?query=c HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:38] "GET /autocomplete?query=ca HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:38] "GET /autocomplete?query=cap HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:38] "GET /autocomplete?query=capi HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:38] "GET /autocomplete?query=capit HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:38] "GET /autocomplete?query=capita HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:38] "GET /autocomplete?query=capital HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:39] "GET /autocomplete?query=capital HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:06:41] "POST /result HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:09:13] "GET /autocomplete?query=k HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:09:13] "GET /autocomplete?query=ko HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:09:16] "GET /autocomplete?query=k HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:10:50] "POST /result HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:11:04] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:11:20] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:11:26] "GET /autocomplete?query=p HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:11:34] "GET /autocomplete?query=p$ HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:11:36] "GET /autocomplete?query=p HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:12:43] "GET /autocomplete?query=f HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:12:48] "POST /result HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:13:25] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:37:53] "GET /autocomplete?query=h HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:37:57] "POST /result HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:39:04] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:40:11] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:40:12] "GET /static/favicon.ico HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:41:20] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:41:55] "GET /robots.txt HTTP/1.1" 404 -
+127.0.0.1 - - [16/Apr/2025 02:41:56] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:42:00] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:42:18] "GET /?fbclid=IwZXh0bgNhZW0CMTEAAR6KJiAwdDL0p9SDXffkX8bczG1NWXwnSBVGMwPXOHswbHgXliTG0RL-MQcEAQ_aem_yHam7EgmCQ7Ry6Fif50yNg HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:42:23] "GET /autocomplete?query=c HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:42:23] "GET /autocomplete?query=ca HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:42:23] "GET /autocomplete?query=cap HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:42:24] "GET /autocomplete?query=capi HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:42:24] "GET /autocomplete?query=capit HTTP/1.1" 200 -
+127.0.0.1 - - [16/Apr/2025 02:42:26] "POST /result HTTP/1.1" 200 -
