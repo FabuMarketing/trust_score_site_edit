@@ -26,11 +26,15 @@
             color: red;
             text-align: center;
         }
+        .table-container {
+            overflow-x: auto; /* Enables horizontal scrolling */
+            margin-top: 20px;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
             font-size: 14px;
+            min-width: 1200px; /* Ensures the table doesn't shrink too much */
         }
         table, th, td {
             border: 1px solid #ddd;
@@ -123,64 +127,68 @@
             </h3>
 
             <h3>Affiliate Brands</h3>
-            <table>
-                <tr>
-                    <th>Affiliate Brand</th>
-                    <th>Program Joined Date</th>
-                    <th>Publisher Joined Date</th>
-                    <th>Revenue</th>
-                    <th>Order/Action</th>
-                    <th>Clicks</th>
-                </tr>
-                {% for brand in affiliate_brands %}
-                <tr>
-                    <td>{{ brand['affiliate brand'] }}</td>
-                    <td>{{ brand['program joined date'] }}</td>
-                    <td>{{ brand['publisher joined date'] }}</td>
-                    <td>{{ brand['revenue'] }}</td>
-                    <td>{{ brand['order/action'] }}</td>
-                    <td>{{ brand['clicks'] }}</td>
-                </tr>
-                {% endfor %}
-            </table>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Affiliate Brand</th>
+                        <th>Program Joined Date</th>
+                        <th>Publisher Joined Date</th>
+                        <th>Revenue</th>
+                        <th>Order/Action</th>
+                        <th>Clicks</th>
+                    </tr>
+                    {% for brand in affiliate_brands %}
+                    <tr>
+                        <td>{{ brand['affiliate brand'] }}</td>
+                        <td>{{ brand['program joined date'] }}</td>
+                        <td>{{ brand['publisher joined date'] }}</td>
+                        <td>{{ brand['revenue'] }}</td>
+                        <td>{{ brand['order/action'] }}</td>
+                        <td>{{ brand['clicks'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
 
             <h3>Top Similar Partners</h3>
-            <table>
-                <tr>
-                    <th>Partner Name</th>
-                    <th>Trust Score</th>
-                    <th>Age Rank</th>
-                    <th>Moz Rank</th>
-                    <th>Domain Authority</th>
-                    <th>Region</th>
-                    <th>URL</th>
-                    <th>Contact Name</th>
-                    <th>Email</th>
-                    <th>Work</th>
-                    <th>Cell</th>
-                    <th>Affiliate Brand</th>
-                    <th>Pub Category</th>
-                    <th>Advertiser Type</th>
-                </tr>
-                {% for pub in similar_partners %}
-                <tr>
-                    <td>{{ pub['partner name'] }}</td>
-                    <td>{{ pub['avg trust score rating'] }}</td>
-                    <td>{{ pub['age rank'] }}</td>
-                    <td>{{ pub['moz rank'] }}</td>
-                    <td>{{ pub['domain authority'] }}</td>
-                    <td>{{ pub['region'] }}</td>
-                    <td><a href="{{ pub['url'] }}" target="_blank">{{ pub['url'] }}</a></td>
-                    <td>{{ pub['contact name'] }}</td>
-                    <td>{{ pub['email'] }}</td>
-                    <td>{{ pub['work'] }}</td>
-                    <td>{{ pub['cell'] }}</td>
-                    <td>{{ pub['affiliate brand'] }}</td>
-                    <td>{{ pub['pub category'] }}</td>
-                    <td>{{ pub['advertiser type'] }}</td>
-                </tr>
-                {% endfor %}
-            </table>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Partner Name</th>
+                        <th>Trust Score</th>
+                        <th>Age Rank</th>
+                        <th>Moz Rank</th>
+                        <th>Domain Authority</th>
+                        <th>Region</th>
+                        <th>URL</th>
+                        <th>Contact Name</th>
+                        <th>Email</th>
+                        <th>Work</th>
+                        <th>Cell</th>
+                        <th>Affiliate Brand</th>
+                        <th>Pub Category</th>
+                        <th>Advertiser Type</th>
+                    </tr>
+                    {% for pub in similar_partners %}
+                    <tr>
+                        <td>{{ pub['partner name'] }}</td>
+                        <td>{{ pub['avg trust score rating'] }}</td>
+                        <td>{{ pub['age rank'] }}</td>
+                        <td>{{ pub['moz rank'] }}</td>
+                        <td>{{ pub['domain authority'] }}</td>
+                        <td>{{ pub['region'] }}</td>
+                        <td><a href="{{ pub['url'] }}" target="_blank">{{ pub['url'] }}</a></td>
+                        <td>{{ pub['contact name'] }}</td>
+                        <td>{{ pub['email'] }}</td>
+                        <td>{{ pub['work'] }}</td>
+                        <td>{{ pub['cell'] }}</td>
+                        <td>{{ pub['affiliate brand'] }}</td>
+                        <td>{{ pub['pub category'] }}</td>
+                        <td>{{ pub['advertiser type'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
 
             <div class="button-container">
                 <button onclick="downloadCSV()">Download as CSV</button>
