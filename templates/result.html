@@ -133,18 +133,18 @@
                         <th>Affiliate Brand</th>
                         <th>Program Joined Date</th>
                         <th>Publisher Joined Date</th>
-                        <th>Revenue</th>
-                        <th>Order/Action</th>
-                        <th>Clicks</th>
+                        <th>Revenue Active?</th>
+                        <th>Action Active?</th>
+                        <th>Click Active?</th>
                     </tr>
                     {% for brand in affiliate_brands %}
                     <tr>
                         <td>{{ brand['affiliate brand'] }}</td>
                         <td>{{ brand['program joined date'] }}</td>
                         <td>{{ brand['publisher joined date'] }}</td>
-                        <td>{{ brand['revenue'] }}</td>
-                        <td>{{ brand['order/action'] }}</td>
-                        <td>{{ brand['clicks'] }}</td>
+                        <td>{% if brand['revenue'] == 0 or brand['revenue'] == 'N/A' or not brand['revenue'] %}No{% else %}Yes{% endif %}</td>
+                        <td>{% if brand['order/action'] == 0 or brand['order/action'] == 'N/A' or not brand['order/action'] %}No{% else %}Yes{% endif %}</td>
+                        <td>{% if brand['clicks'] == 0 or brand['clicks'] == 'N/A' or not brand['clicks'] %}No{% else %}Yes{% endif %}</td>
                     </tr>
                     {% endfor %}
                 </table>
