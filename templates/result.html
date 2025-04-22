@@ -82,9 +82,9 @@
     <script>
         function downloadCSV() {
             const rows = [
-                ["Partner Name", "Trust Score", "Age Rank", "Moz Rank", "Domain Authority", "Region", "URL", "Contact Name", "Email", "Work", "Cell", "Affiliate Brand"],
+                ["Partner Name", "Trust Score", "Age Rank", "Moz Rank", "Domain Authority", "Region", "URL", "Contact Name", "Email", "Work", "Cell", "Affiliate Brand", "Pub Category", "Advertiser Type"],
                 {% for pub in similar_partners %}
-                ["{{ pub['partner name'] }}", "{{ pub['avg trust score rating'] }}", "{{ pub['age rank'] }}", "{{ pub['moz rank'] }}", "{{ pub['domain authority'] }}", "{{ pub['region'] }}", "{{ pub['url'] }}", "{{ pub['contact name'] }}", "{{ pub['email'] }}", "{{ pub['work'] }}", "{{ pub['cell'] }}", "{{ pub['affiliate brand'] }}"],
+                ["{{ pub['partner name'] }}", "{{ pub['avg trust score rating'] }}", "{{ pub['age rank'] }}", "{{ pub['moz rank'] }}", "{{ pub['domain authority'] }}", "{{ pub['region'] }}", "{{ pub['url'] }}", "{{ pub['contact name'] }}", "{{ pub['email'] }}", "{{ pub['work'] }}", "{{ pub['cell'] }}", "{{ pub['affiliate brand'] }}", "{{ pub['pub category'] }}", "{{ pub['advertiser type'] }}"],
                 {% endfor %}
             ];
             let csvContent = "data:text/csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n");
@@ -159,6 +159,8 @@
                     <th>Work</th>
                     <th>Cell</th>
                     <th>Affiliate Brand</th>
+                    <th>Pub Category</th>
+                    <th>Advertiser Type</th>
                 </tr>
                 {% for pub in similar_partners %}
                 <tr>
@@ -168,12 +170,14 @@
                     <td>{{ pub['moz rank'] }}</td>
                     <td>{{ pub['domain authority'] }}</td>
                     <td>{{ pub['region'] }}</td>
-                    <td>{{ pub['url'] }}</td>
+                    <td><a href="{{ pub['url'] }}" target="_blank">{{ pub['url'] }}</a></td>
                     <td>{{ pub['contact name'] }}</td>
                     <td>{{ pub['email'] }}</td>
                     <td>{{ pub['work'] }}</td>
                     <td>{{ pub['cell'] }}</td>
                     <td>{{ pub['affiliate brand'] }}</td>
+                    <td>{{ pub['pub category'] }}</td>
+                    <td>{{ pub['advertiser type'] }}</td>
                 </tr>
                 {% endfor %}
             </table>

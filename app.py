@@ -20,8 +20,8 @@ def get_sheet_data():
     try:
         scope = ["https://spreadsheets.google.com/feeds",
                  "https://www.googleapis.com/auth/drive"]
-        # Use the secret file path provided by Render
-        creds_path = "/etc/secrets/credentials.json"
+        # Use the credentials.json file
+        creds_path = "/etc/secrets/credentials.json"  # Update this path if necessary
         creds = ServiceAccountCredentials.from_json_keyfile_name(creds_path, scope)
         client = gspread.authorize(creds)
 
@@ -125,7 +125,7 @@ def result():
         # Prepare data for the template
         similar_partners = top_similar[['partner name', 'avg trust score rating', 'age rank',
                                         'moz rank', 'domain authority', 'region', 'url', 'contact name',
-                                        'email', 'work', 'cell', 'affiliate brand']].to_dict(orient='records')
+                                        'email', 'work', 'cell', 'affiliate brand', 'pub category', 'advertiser type']].to_dict(orient='records')
 
         return render_template(
             'result.html',
