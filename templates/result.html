@@ -86,9 +86,9 @@
     <script>
         function downloadCSV() {
             const rows = [
-                ["Partner Name", "Trust Score", "Age Rank", "Moz Rank", "Domain Authority", "Region", "URL", "Contact Name", "Email", "Work", "Cell", "Affiliate Brand", "Pub Category", "Advertiser Type"],
+                ["Partner Name", "Trust Score", "Age Rank", "Ahrefs DR", "Semrush DR", "Moz DR", "URL", "Contact Name", "Email", "Work", "Cell", "Affiliate Brand", "Pub Category", "Advertiser Type"],
                 {% for pub in similar_partners %}
-                ["{{ pub['partner name'] }}", "{{ pub['avg trust score rating'] }}", "{{ pub['age rank'] }}", "{{ pub['moz rank'] }}", "{{ pub['domain authority'] }}", "{{ pub['region'] }}", "{{ pub['url'] }}", "{{ pub['contact name'] }}", "{{ pub['email'] }}", "{{ pub['work'] }}", "{{ pub['cell'] }}", "{{ pub['affiliate brand'] }}", "{{ pub['pub category'] }}", "{{ pub['advertiser type'] }}"],
+                ["{{ pub['partner name'] }}", "{{ pub['avg trust score rating'] }}", "{{ pub['age rank'] }}", "{{ pub['ahrefs dr'] }}", "{{ pub['semrush dr'] }}", "{{ pub['moz dr'] }}", "{{ pub['url'] }}", "{{ pub['contact name'] }}", "{{ pub['email'] }}", "{{ pub['work'] }}", "{{ pub['cell'] }}", "{{ pub['affiliate brand'] }}", "{{ pub['pub category'] }}", "{{ pub['advertiser type'] }}"],
                 {% endfor %}
             ];
             let csvContent = "data:text/csv;charset=utf-8," + rows.map(e => e.join(",")).join("\n");
@@ -157,9 +157,9 @@
                         <th>Partner Name</th>
                         <th>Trust Score</th>
                         <th>Age Rank</th>
-                        <th>Moz Rank</th>
-                        <th>Domain Authority</th>
-                        <th>Region</th>
+                        <th>Ahrefs DR</th>
+                        <th>Semrush DR</th>
+                        <th>Moz DR</th>
                         <th>URL</th>
                         <th>Contact Name</th>
                         <th>Email</th>
@@ -174,9 +174,9 @@
                         <td>{{ pub['partner name'] }}</td>
                         <td>{{ pub['avg trust score rating'] }}</td>
                         <td>{{ pub['age rank'] }}</td>
-                        <td>{{ pub['moz rank'] }}</td>
-                        <td>{{ pub['domain authority'] }}</td>
-                        <td>{{ pub['region'] }}</td>
+                        <td>{{ pub['ahrefs dr'] }}</td>
+                        <td>{{ pub['semrush dr'] }}</td>
+                        <td>{{ pub['moz dr'] }}</td>
                         <td><a href="{{ pub['url'] }}" target="_blank">{{ pub['url'] }}</a></td>
                         <td>{{ pub['contact name'] }}</td>
                         <td>{{ pub['email'] }}</td>

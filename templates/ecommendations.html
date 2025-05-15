@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Website Recommendations</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            padding: 0;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            width: 95%;
+            margin: auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #0A152C;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .button-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #0A152C;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .button-container button:hover {
+            background-color: #081024;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Recommendations for Website: {{ website_url }}</h2>
+        <div class="table-container">
+            <table>
+                <tr>
+                    <th>Partner Name</th>
+                    <th>Trust Score</th>
+                    <th>URL</th>
+                    <th>Publisher Category</th>
+                    <th>Advertiser Type</th>
+                </tr>
+                {% for rec in recommendations %}
+                <tr>
+                    <td>{{ rec['partner name'] | default('N/A') }}</td>
+                    <td>{{ rec['trust score rating'] | default('N/A') }}</td>
+                    <td>
+                        {% if rec['url'] %}
+                            <a href="{{ rec['url'] }}" target="_blank">{{ rec['url'] }}</a>
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+                    <td>{{ rec['pub category'] | default('N/A') }}</td>
+                    <td>{{ rec['advertiser type'] | default('N/A') }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="button-container">
+            <button onclick="window.location.href='/'">Return to Search</button>
+        </div>
+    </div>
+</body>
+</html>
