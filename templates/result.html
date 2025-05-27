@@ -25,35 +25,115 @@
         tr:nth-child(even) {
             background-color: #f9f9f9;
         }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .button-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #0A152C;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .button-container button:hover {
+            background-color: #081024;
+        }
     </style>
 </head>
 <body>
     <h1>Partner Details for {{ partner_name }}</h1>
-    {% if partner_details %}
+    {% if affiliate_brands %}
+    <h2>Affiliate Brands</h2>
     <table>
         <tr>
             <th>Affiliate Brand</th>
             <th>Program Joined Date</th>
             <th>Publisher Joined Date</th>
-            <th>Revenue</th>
-            <th>Action</th>
-            <th>Clicks</th>
-            <th>CR</th> <!-- Add CR column -->
+            <th>Revenue Active</th>
+            <th>Action Active</th>
+            <th>Click Active</th>
+            <th>CR</th>
         </tr>
-        {% for detail in partner_details %}
+        {% for brand in affiliate_brands %}
         <tr>
-            <td>{{ detail['affiliate brand'] }}</td>
-            <td>{{ detail['program joined date'] }}</td>
-            <td>{{ detail['publisher joined date'] }}</td>
-            <td>{{ detail['revenue'] }}</td>
-            <td>{{ detail['order/action'] }}</td>
-            <td>{{ detail['clicks'] }}</td>
-            <td>{{ detail['cr'] }}</td> <!-- Display CR -->
+            <td>{{ brand['affiliate brand'] }}</td>
+            <td>{{ brand['program joined date'] }}</td>
+            <td>{{ brand['publisher joined date'] }}</td>
+            <td>{{ brand['Revenue Active'] }}</td>
+            <td>{{ brand['Action Active'] }}</td>
+            <td>{{ brand['Click Active'] }}</td>
+            <td>{{ brand['CR'] }}</td>
         </tr>
         {% endfor %}
     </table>
-    {% else %}
-    <p>No details found for the selected partner.</p>
     {% endif %}
+    {% if similar_partners %}
+    <h2>Top Similar Partners</h2>
+    <table>
+        <tr>
+            <th>Partner Name</th>
+            <th>Trust Score</th>
+            <th>Age Rank</th>
+            <th>Ahrefs DR</th>
+            <th>Semrush DR</th>
+            <th>Moz DR</th>
+            <th>URL</th>
+            <th>Contact Name</th>
+            <th>Email</th>
+            <th>Work</th>
+            <th>Cell</th>
+            <th>Affiliate Brand</th>
+        </tr>
+        {% for partner in similar_partners %}
+        <tr>
+            <td>{{ partner['partner name'] }}</td>
+            <td>{{ partner['avg trust score rating'] }}</td>
+            <td>{{ partner['age rank'] }}</td>
+            <td>{{ partner['ahrefs dr'] }}</td>
+            <td>{{ partner['semrush dr'] }}</td>
+            <td>{{ partner['moz dr'] }}</td>
+            <td><a href="{{ partner['url'] }}" target="_blank">{{ partner['url'] }}</a></td>
+            <td>{{ partner['contact name'] }}</td>
+            <td>{{ partner['email'] }}</td>
+            <td>{{ partner['work'] }}</td>
+            <td>{{ partner['cell'] }}</td>
+            <td>{{ partner['affiliate brand'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+    <div class="button-container">
+        <button onclick="window.location.href='/'">Return to Search</button>
+        <button onclick="downloadCSV()">Download as CSV</button>
+    </div>
+    <script>
+        function downloadCSV() {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/download_csv';
+
+            // Add affiliate_brands data
+            const affiliateBrandsInput = document.createElement('input');
+            affiliateBrandsInput.type = 'hidden';
+            affiliateBrandsInput.name = 'affiliate_brands';
+            affiliateBrandsInput.value = JSON.stringify({{ affiliate_brands | tojson }});
+            form.appendChild(affiliateBrandsInput);
+
+            // Add similar_partners data
+            const similarPartnersInput = document.createElement('input');
+            similarPartnersInput.type = 'hidden';
+            similarPartnersInput.name = 'similar_partners';
+            similarPartnersInput.value = JSON.stringify({{ similar_partners | tojson }});
+            form.appendChild(similarPartnersInput);
+
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+        }
+    </script>
 </body>
 </html>
