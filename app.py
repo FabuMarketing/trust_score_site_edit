@@ -5,6 +5,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 import os
 import csv
 import io
+from fpdf import FPDF  # For PDF generation
 
 # Create the Flask application instance
 app = Flask(__name__)
@@ -137,7 +138,7 @@ def result():
                 revenue=lambda x: x['revenue'].apply(lambda v: "Yes" if v > 0 else "No"),
                 action_active=lambda x: x['order active'].apply(lambda v: "Yes" if v > 0 else "No"),  # Fix Action Active
                 clicks=lambda x: x['clicks'].apply(lambda v: "Yes" if v > 0 else "No"),
-                cr=lambda x: x['cr'].apply(lambda v: f"{v:.2f}%" if v > 0 else "0.00%")  # Format CR as percentage
+                cr=lambda x: x['cr']  # Display the actual CR value from the sheet
             )
             .rename(columns={
                 'revenue': 'Revenue Active',
@@ -158,7 +159,7 @@ def result():
         # Prepare data for the template
         similar_partners = top_similar[['partner name', 'avg trust score rating', 'age rank',
                                         'ahrefs dr', 'semrush dr', 'moz dr', 'url', 'contact name',
-                                        'email', 'work', 'cell', 'affiliate brand', 'pub category', 'advertiser type']].to_dict(orient='records')
+                                        'email', 'work', 'cell', 'pub category', 'advertiser type']].to_dict(orient='records')
 
         return render_template(
             'result.html',
@@ -175,19 +176,15 @@ def result():
 @app.route('/download_csv', methods=['POST'])
 def download_csv():
     try:
-        # Retrieve data for CSV generation
-        affiliate_brands = request.form.get('affiliate_brands', '')
-        similar_partners = request.form.get('similar_partners', '')
+        affiliate_brands = request.form.get('affiliate_brands', '[]')
+        similar_partners = request.form.get('similar_partners', '[]')
 
-        # Convert JSON strings back to Python objects
         affiliate_brands = eval(affiliate_brands) if affiliate_brands else []
         similar_partners = eval(similar_partners) if similar_partners else []
 
-        # Create CSV content
         output = io.StringIO()
         writer = csv.writer(output)
 
-        # Write Affiliate Brands section
         if affiliate_brands:
             writer.writerow(['Affiliate Brands'])
             writer.writerow(['Affiliate Brand', 'Program Joined Date', 'Publisher Joined Date', 'Revenue Active', 'Action Active', 'Click Active', 'CR'])
@@ -201,12 +198,11 @@ def download_csv():
                     brand['Click Active'],
                     brand['CR']
                 ])
-            writer.writerow([])  # Add an empty row for separation
+            writer.writerow([])
 
-        # Write Top Similar Partners section
         if similar_partners:
             writer.writerow(['Top Similar Partners'])
-            writer.writerow(['Partner Name', 'Trust Score', 'Age Rank', 'Ahrefs DR', 'Semrush DR', 'Moz DR', 'URL', 'Contact Name', 'Email', 'Work', 'Cell', 'Affiliate Brand'])
+            writer.writerow(['Partner Name', 'Trust Score', 'Age Rank', 'Ahrefs DR', 'Semrush DR', 'Moz DR', 'URL', 'Contact Name', 'Email', 'Work', 'Cell', 'Pub Category', 'Advertiser Type'])
             for partner in similar_partners:
                 writer.writerow([
                     partner['partner name'],
@@ -220,10 +216,10 @@ def download_csv():
                     partner['email'],
                     partner['work'],
                     partner['cell'],
-                    partner['affiliate brand']
+                    partner['pub category'],
+                    partner['advertiser type']
                 ])
 
-        # Generate response
         response = make_response(output.getvalue())
         response.headers['Content-Disposition'] = 'attachment; filename=result.csv'
         response.headers['Content-Type'] = 'text/csv'
@@ -233,7 +229,42 @@ def download_csv():
         print(f"❌ Error generating CSV: {e}")
         return "Error generating CSV", 500
 
-# Ensure the Flask application starts
+@app.route('/download_pdf', methods=['POST'])
+def download_pdf():
+    try:
+        affiliate_brands = request.form.get('affiliate_brands', '[]')
+        similar_partners = request.form.get('similar_partners', '[]')
+
+        affiliate_brands = eval(affiliate_brands) if affiliate_brands else []
+        similar_partners = eval(similar_partners) if similar_partners else []
+
+        pdf = FPDF()
+        pdf.add_page()
+        pdf.set_font("Arial", size=12)
+
+        if affiliate_brands:
+            pdf.set_font("Arial", style="B", size=14)
+            pdf.cell(200, 10, txt="Affiliate Brands", ln=True, align="L")
+            pdf.set_font("Arial", size=12)
+            for brand in affiliate_brands:
+                pdf.cell(200, 10, txt=f"{brand['affiliate brand']} - CR: {brand['CR']}", ln=True, align="L")
+
+        if similar_partners:
+            pdf.set_font("Arial", style="B", size=14)
+            pdf.cell(200, 10, txt="Top Similar Partners", ln=True, align="L")
+            pdf.set_font("Arial", size=12)
+            for partner in similar_partners:
+                pdf.cell(200, 10, txt=f"{partner['partner name']} - Pub Category: {partner['pub category']}, Advertiser Type: {partner['advertiser type']}", ln=True, align="L")
+
+        response = make_response(pdf.output(dest='S').encode('latin1'))
+        response.headers['Content-Disposition'] = 'attachment; filename=result.pdf'
+        response.headers['Content-Type'] = 'application/pdf'
+        return response
+
+    except Exception as e:
+        print(f"❌ Error generating PDF: {e}")
+        return "Error generating PDF", 500
+
 if __name__ == '__main__':
     print("Starting Flask application...")
     app.run(host='0.0.0.0', port=5000, debug=True)

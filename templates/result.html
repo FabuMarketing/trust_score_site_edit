@@ -86,7 +86,8 @@
             <th>Email</th>
             <th>Work</th>
             <th>Cell</th>
-            <th>Affiliate Brand</th>
+            <th>Pub Category</th>
+            <th>Advertiser Type</th>
         </tr>
         {% for partner in similar_partners %}
         <tr>
@@ -101,39 +102,24 @@
             <td>{{ partner['email'] }}</td>
             <td>{{ partner['work'] }}</td>
             <td>{{ partner['cell'] }}</td>
-            <td>{{ partner['affiliate brand'] }}</td>
+            <td>{{ partner['pub category'] }}</td>
+            <td>{{ partner['advertiser type'] }}</td>
         </tr>
         {% endfor %}
     </table>
     {% endif %}
     <div class="button-container">
         <button onclick="window.location.href='/'">Return to Search</button>
-        <button onclick="downloadCSV()">Download as CSV</button>
+        <form action="/download_csv" method="post" style="display: inline;">
+            <input type="hidden" name="affiliate_brands" value="{{ affiliate_brands | tojson(default='[]') }}">
+            <input type="hidden" name="similar_partners" value="{{ similar_partners | tojson(default='[]') }}">
+            <button type="submit">Download as CSV</button>
+        </form>
+        <form action="/download_pdf" method="post" style="display: inline;">
+            <input type="hidden" name="affiliate_brands" value="{{ affiliate_brands | tojson(default='[]') }}">
+            <input type="hidden" name="similar_partners" value="{{ similar_partners | tojson(default='[]') }}">
+            <button type="submit">Download as PDF</button>
+        </form>
     </div>
-    <script>
-        function downloadCSV() {
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '/download_csv';
-
-            // Add affiliate_brands data
-            const affiliateBrandsInput = document.createElement('input');
-            affiliateBrandsInput.type = 'hidden';
-            affiliateBrandsInput.name = 'affiliate_brands';
-            affiliateBrandsInput.value = JSON.stringify({{ affiliate_brands | tojson }});
-            form.appendChild(affiliateBrandsInput);
-
-            // Add similar_partners data
-            const similarPartnersInput = document.createElement('input');
-            similarPartnersInput.type = 'hidden';
-            similarPartnersInput.name = 'similar_partners';
-            similarPartnersInput.value = JSON.stringify({{ similar_partners | tojson }});
-            form.appendChild(similarPartnersInput);
-
-            document.body.appendChild(form);
-            form.submit();
-            document.body.removeChild(form);
-        }
-    </script>
 </body>
 </html>
