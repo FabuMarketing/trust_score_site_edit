@@ -14,18 +14,24 @@
             margin: 0;
         }
         .container {
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
             background: white;
             padding: 50px 30px;
             border-radius: 16px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 450px;
+            width: 90%;
+            max-width: 1200px;
+        }
+        .form-section {
+            width: 45%;
+            text-align: center;
         }
         h1 {
-            font-size: 32px;
+            font-size: 24px;
             color: #0A152C;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             font-weight: bold;
         }
         form {
@@ -34,7 +40,6 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
-            position: relative;
         }
         input[type="text"] {
             padding: 15px;
@@ -68,18 +73,24 @@
 </head>
 <body>
     <div class="container">
-        <h1>Trust Score Lookup</h1>
-        <form action="/result" method="post">
-            <input type="text" id="partner-name" name="Partner Name" placeholder="Enter partner name..." list="partner-name-datalist" required>
-            <datalist id="partner-name-datalist"></datalist>
-            <input type="submit" value="Check Trust Score">
-        </form>
+        <!-- Trust Score Lookup Section -->
+        <div class="form-section">
+            <h1>Trust Score Lookup</h1>
+            <form action="/result" method="post">
+                <input type="text" id="partner-name" name="Partner Name" placeholder="Enter partner name..." list="partner-name-datalist" required>
+                <datalist id="partner-name-datalist"></datalist>
+                <input type="submit" value="Check Trust Score">
+            </form>
+        </div>
 
-        <h1 style="margin-top: 50px;">Lookup by Brand URL</h1>
-        <form action="/publisher_lookup" method="post">
-            <input type="text" id="brand-url" name="Brand URL" placeholder="Enter brand URL..." required>
-            <input type="submit" value="Find Top Publishers">
-        </form>
+        <!-- Lookup by Brand URL Section -->
+        <div class="form-section">
+            <h1>Lookup by Brand URL</h1>
+            <form action="/publisher_lookup" method="post">
+                <input type="text" id="brand-url" name="Brand URL" placeholder="Enter brand URL..." required>
+                <input type="submit" value="Find Top Publishers">
+            </form>
+        </div>
     </div>
     <script>
         document.getElementById('partner-name').addEventListener('input', function () {
