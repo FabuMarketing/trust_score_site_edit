@@ -115,9 +115,35 @@
               </table>
           </div>
           <div class="button-container">
+              <button onclick="downloadCSV()">Download as CSV</button>
+              <button onclick="downloadPDF()">Download as PDF</button>
               <button onclick="window.location.href='/'">Return to Search</button>
           </div>
       {% endif %}
   </div>
+  <script>
+      function downloadCSV() {
+          fetch('/download_csv', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ publishers: {{ publishers|tojson }} })
+          })
+          .then(response => response.blob())
+          .then(blob => {
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.style.display = 'none';
+              a.href = url;
+              a.download = 'publishers.csv';
+              document.body.appendChild(a);
+              a.click();
+              window.URL.revokeObjectURL(url);
+          });
+      }
+
+      function downloadPDF() {
+          alert('PDF generation not implemented yet.');
+      }
+  </script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Top Recommended Partners</title>
+  <title>Trust Score Result</title>
   <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
   <style>
       body {
@@ -77,12 +77,52 @@
       {% if error %}
           <h2 class="error">{{ error }}</h2>
       {% else %}
-          <h2>Top Recommended Partners</h2>
+          <h2>Partner Name: {{ partner_name }}</h2>
+          <h3>
+              Trust Score Rating:
+              <span class="{% if trust_score > 50 %}trust-score-green{% elif trust_score >= 30 %}trust-score-orange{% else %}trust-score-red{% endif %}">
+                  {{ trust_score }}
+              </span>
+          </h3>
+
+          <h3>Affiliate Brands</h3>
+          <div class="table-container">
+              <table>
+                  <tr>
+                      <th>Affiliate Brand</th>
+                      <th>Program Joined Date</th>
+                      <th>Publisher Joined Date</th>
+                      <th>Revenue</th>
+                      <th>Action</th>
+                      <th>Click</th>
+                      <th>CR%</th>
+                  </tr>
+                  {% for brand in affiliate_brands %}
+                  <tr>
+                      <td>{{ brand['affiliate brand'] }}</td>
+                      <td>{{ brand['program joined date'] }}</td>
+                      <td>{{ brand['publisher joined date'] }}</td>
+                      <td>{{ brand['revenue'] }}</td>
+                      <td>{{ brand['order/action'] }}</td>
+                      <td>{{ brand['clicks'] }}</td>
+                      <td>
+                          {% if brand['cr'] is defined and brand['cr'] is not none %}
+                              {{ brand['cr'] | round(2) }}
+                          {% else %}
+                              N/A
+                          {% endif %}
+                      </td>
+                  </tr>
+                  {% endfor %}
+              </table>
+          </div>
+
+          <h3>Top Similar Partners</h3>
           <div class="table-container">
               <table>
                   <tr>
                       <th>Partner Name</th>
-                      <th>Trust Score Rating</th>
+                      <th>Trust Score</th>
                       <th>Age Rank</th>
                       <th>Ahrefs DR</th>
                       <th>Semrush DR</th>
@@ -95,7 +135,7 @@
                       <th>Pub Category</th>
                       <th>Advertiser Type</th>
                   </tr>
-                  {% for pub in publishers %}
+                  {% for pub in similar_partners %}
                   <tr>
                       <td>{{ pub['partner name'] }}</td>
                       <td>{{ pub['trust score rating'] }}</td>
@@ -114,10 +154,37 @@
                   {% endfor %}
               </table>
           </div>
+
           <div class="button-container">
+              <button onclick="downloadCSV()">Download as CSV</button>
+              <button onclick="downloadPDF()">Download as PDF</button>
               <button onclick="window.location.href='/'">Return to Search</button>
           </div>
       {% endif %}
   </div>
+  <script>
+      function downloadCSV() {
+          fetch('/download_csv', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ publishers: {{ similar_partners|tojson }} })
+          })
+          .then(response => response.blob())
+          .then(blob => {
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.style.display = 'none';
+              a.href = url;
+              a.download = 'similar_partners.csv';
+              document.body.appendChild(a);
+              a.click();
+              window.URL.revokeObjectURL(url);
+          });
+      }
+
+      function downloadPDF() {
+          alert('PDF generation not implemented yet.');
+      }
+  </script>
 </body>
 </html>
