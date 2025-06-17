@@ -1,149 +1,150 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Top Recommended Partners</title>
-  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
-  <style>
-      body {
-          font-family: 'Arial', sans-serif;
-          background-color: #f0f4f8;
-          padding: 0;
-          margin: 0;
-      }
-      .container {
-          background: white;
-          width: 95%;
-          margin: auto;
-          padding: 30px;
-          border-radius: 12px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      }
-      h2, h3 {
-          text-align: center;
-          color: #333;
-      }
-      .error {
-          color: red;
-          text-align: center;
-      }
-      .table-container {
-          overflow-x: auto; /* Enables horizontal scrolling */
-          margin-top: 20px;
-      }
-      table {
-          width: 100%;
-          border-collapse: collapse;
-          font-size: 14px;
-          min-width: 1200px; /* Ensures the table doesn't shrink too much */
-      }
-      table, th, td {
-          border: 1px solid #ddd;
-      }
-      th, td {
-          padding: 12px;
-          text-align: center;
-      }
-      th {
-          background-color: #0A152C;
-          color: white;
-      }
-      tr:nth-child(even) {
-          background-color: #f9f9f9;
-      }
-      tr:hover {
-          background-color: #f1f1f1;
-      }
-      .button-container {
-          text-align: center;
-          margin-top: 20px;
-      }
-      .button-container button {
-          padding: 10px 20px;
-          font-size: 16px;
-          background-color: #0A152C;
-          color: white;
-          border: none;
-          border-radius: 6px;
-          cursor: pointer;
-          margin: 5px;
-      }
-      .button-container button:hover {
-          background-color: #081024;
-      }
-  </style>
+ <title>Top Recommended Partners</title>
+ <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+ <style>
+     body {
+         font-family: 'Arial', sans-serif;
+         background-color: #f0f4f8;
+         padding: 0;
+         margin: 0;
+     }
+     .container {
+         background: white;
+         width: 95%;
+         margin: auto;
+         padding: 30px;
+         border-radius: 12px;
+         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+     }
+     h2, h3 {
+         text-align: center;
+         color: #333;
+     }
+     .error {
+         color: red;
+         text-align: center;
+     }
+     .table-container {
+         overflow-x: auto; /* Enables horizontal scrolling */
+         margin-top: 20px;
+     }
+     table {
+         width: 100%;
+         border-collapse: collapse;
+         font-size: 14px;
+         min-width: 1200px; /* Ensures the table doesn't shrink too much */
+     }
+     table, th, td {
+         border: 1px solid #ddd;
+     }
+     th, td {
+         padding: 12px;
+         text-align: center;
+     }
+     th {
+         background-color: #0A152C;
+         color: white;
+     }
+     tr:nth-child(even) {
+         background-color: #f9f9f9;
+     }
+     tr:hover {
+         background-color: #f1f1f1;
+     }
+     .button-container {
+         text-align: center;
+         margin-top: 20px;
+     }
+     .button-container button {
+         padding: 10px 20px;
+         font-size: 16px;
+         background-color: #0A152C;
+         color: white;
+         border: none;
+         border-radius: 6px;
+         cursor: pointer;
+         margin: 5px;
+     }
+     .button-container button:hover {
+         background-color: #081024;
+     }
+ </style>
 </head>
 <body>
-  <div class="container">
-      {% if error %}
-          <h2 class="error">{{ error }}</h2>
-      {% else %}
-          <h2>Top Recommended Partners</h2>
-          <div class="table-container">
-              <table>
-                  <tr>
-                      <th>Partner Name</th>
-                      <th>Trust Score Rating</th>
-                      <th>Age Rank</th>
-                      <th>Ahrefs DR</th>
-                      <th>Semrush DR</th>
-                      <th>Moz DR</th>
-                      <th>URL</th>
-                      <th>Contact Name</th>
-                      <th>Email</th>
-                      <th>Work</th>
-                      <th>Cell</th>
-                      <th>Pub Category</th>
-                      <th>Advertiser Type</th>
-                  </tr>
-                  {% for pub in publishers %}
-                  <tr>
-                      <td>{{ pub['partner name'] }}</td>
-                      <td>{{ pub['trust score rating'] }}</td>
-                      <td>{{ pub['age rank'] }}</td>
-                      <td>{{ pub['ahrefs dr'] }}</td>
-                      <td>{{ pub['semrush dr'] }}</td>
-                      <td>{{ pub['moz dr'] }}</td>
-                      <td><a href="{{ pub['url'] }}" target="_blank">{{ pub['url'] }}</a></td>
-                      <td>{{ pub['contact name'] }}</td>
-                      <td>{{ pub['email'] }}</td>
-                      <td>{{ pub['work'] }}</td>
-                      <td>{{ pub['cell'] }}</td>
-                      <td>{{ pub['pub category'] }}</td>
-                      <td>{{ pub['advertiser type'] }}</td>
-                  </tr>
-                  {% endfor %}
-              </table>
-          </div>
-          <div class="button-container">
-              <button onclick="downloadCSV()">Download as CSV</button>
-              <button onclick="downloadPDF()">Download as PDF</button>
-              <button onclick="window.location.href='/'">Return to Search</button>
-          </div>
-      {% endif %}
-  </div>
-  <script>
-      function downloadCSV() {
-          fetch('/download_csv', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ publishers: {{ publishers|tojson }} })
-          })
-          .then(response => response.blob())
-          .then(blob => {
-              const url = window.URL.createObjectURL(blob);
-              const a = document.createElement('a');
-              a.style.display = 'none';
-              a.href = url;
-              a.download = 'publishers.csv';
-              document.body.appendChild(a);
-              a.click();
-              window.URL.revokeObjectURL(url);
-          });
-      }
+ <div class="container">
+     {% if error %}
+         <h2 class="error">{{ error }}</h2>
+     {% else %}
+         <h2>Top Recommended Partners</h2>
+         <div class="table-container">
+             <table>
+                 <tr>
+                     <th>Partner Name</th>
+                     <th>Trust Score Rating</th>
+                     <th>Age Rank</th>
+                     <th>Ahrefs DR</th>
+                     <th>Semrush DR</th>
+                     <th>Moz DR</th>
+                     <th>URL</th>
+                     <th>Contact Name</th>
+                     <th>Email</th>
+                     <th>Work</th>
+                     <th>Cell</th>
+                     <th>Pub Category</th>
+                     <th>Advertiser Type</th>
+                 </tr>
+                 {% for pub in publishers %}
+                 <tr>
+                     <td>{{ pub['partner name'] }}</td>
+                     <td>{{ pub['trust score rating'] }}</td>
+                     <td>{{ pub['age rank'] }}</td>
+                     <td>{{ pub['ahrefs dr'] }}</td>
+                     <td>{{ pub['semrush dr'] }}</td>
+                     <td>{{ pub['moz dr'] }}</td>
+                     <td><a href="{{ pub['url'] }}" target="_blank">{{ pub['url'] }}</a></td>
+                     <td>{{ pub['contact name'] }}</td>
+                     <td>{{ pub['email'] }}</td>
+                     <td>{{ pub['work'] }}</td>
+                     <td>{{ pub['cell'] }}</td>
+                     <td>{{ pub['pub category'] }}</td>
+                     <td>{{ pub['advertiser type'] }}</td>
+                 </tr>
+                 {% endfor %}
+             </table>
+         </div>
+         <div class="button-container">
+             <button onclick="downloadCSV()">Download as CSV</button>
+             <button onclick="downloadPDF()">Download as PDF</button>
+             <button onclick="window.location.href='/'">Return to Search</button>
+         </div>
+     {% endif %}
+ </div>
+ <script>
+     function downloadCSV() {
+         fetch('/download_csv', {
+             method: 'POST',
+             headers: { 'Content-Type': 'application/json' },
+             body: JSON.stringify({ publishers: {{ publishers|tojson }} })
+         })
+         .then(response => response.blob())
+         .then(blob => {
+             const url = window.URL.createObjectURL(blob);
+             const a = document.createElement('a');
+             a.style.display = 'none';
+             a.href = url;
+             a.download = 'publishers.csv';
+             document.body.appendChild(a);
+             a.click();
+             window.URL.revokeObjectURL(url);
+         });
+     }
 
-      function downloadPDF() {
-          alert('PDF generation not implemented yet.');
-      }
-  </script>
+
+     function downloadPDF() {
+         alert('PDF generation not implemented yet.');
+     }
+ </script>
 </body>
 </html>
