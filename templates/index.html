@@ -6,12 +6,13 @@
    <style>
        body {
            font-family: 'Arial', sans-serif;
-           background-color: #F0F4F8;
+           background: linear-gradient(180deg, #8C3F2E 0%, #C86F41 100%);
            display: flex;
            justify-content: center;
            align-items: center;
            height: 100vh;
            margin: 0;
+           position: relative;
        }
        .container {
            display: flex;
@@ -69,9 +70,22 @@
        input[type="submit"]:hover {
            background-color: #081024;
        }
+       .logo {
+           position: absolute;
+           top: 20px;
+           left: 20px;
+       }
+       .logo img {
+           height: 60px; /* Increased size */
+       }
    </style>
 </head>
 <body>
+   <!-- Logo Section -->
+   <div class="logo">
+       <img src="{{ url_for('static', filename='logo.png') }}" alt="RoundBarnLabs Logo">
+   </div>
+
    <div class="container">
        <!-- Trust Score Lookup Section -->
        <div class="form-section">
@@ -82,7 +96,6 @@
                <input type="submit" value="Check Trust Score">
            </form>
        </div>
-
 
        <!-- Lookup by Brand URL Section -->
        <div class="form-section">
