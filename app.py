@@ -121,7 +121,7 @@ def result():
         df['score_diff'] = abs(df['trust score rating'] - trust_score)
         top_similar = df[(df['pub category'] == selected['pub category'].iloc[0]) &
                          (df['advertiser type'] == selected['advertiser type'].iloc[0])].drop_duplicates(
-            subset=['partner name']).sort_values(by='score_diff').head(10)
+            subset=['partner name']).sort_values(by=['trust score rating'], ascending=False).head(10)  # Sort by Trust Score Rating
         # Prepare data for the template
         similar_partners = top_similar[['partner name', 'trust score rating', 'age rank',
                                         'ahrefs dr', 'semrush dr', 'moz dr', 'url', 'contact name',
@@ -171,10 +171,10 @@ def publisher_lookup():
         # Filter publishers based on the matched category and type
         filtered_publishers = df[
             (df['pub category'] == matched_category) | (df['advertiser type'] == matched_type)
-        ].drop_duplicates(subset=['partner name']).sort_values(by='trust score rating', ascending=False)
+        ].drop_duplicates(subset=['partner name']).sort_values(by=['trust score rating'], ascending=False)  # Sort by Trust Score Rating
         # Ensure at least 10 publishers are displayed
         if len(filtered_publishers) < 10:
-            additional_publishers = df.sort_values(by='trust score rating', ascending=False).head(10 - len(filtered_publishers))
+            additional_publishers = df.sort_values(by=['trust score rating'], ascending=False).head(10 - len(filtered_publishers))
             filtered_publishers = pd.concat([filtered_publishers, additional_publishers]).drop_duplicates(subset=['partner name']).head(10)
         # Prepare data for the template
         publishers = filtered_publishers[['partner name', 'trust score rating', 'age rank',
