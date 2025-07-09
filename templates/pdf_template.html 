@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Publishers Report</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #0A152C;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h2>Publishers Report</h2>
+    <table>
+        <tr>
+            <th>Partner Name</th>
+            <th>Trust Score Rating</th>
+            <th>Age Rank</th>
+            <th>Ahrefs DR</th>
+            <th>Semrush DR</th>
+            <th>Moz DR</th>
+            <th>URL</th>
+            <th>Contact Name</th>
+            <th>Email</th>
+            <th>Work</th>
+            <th>Cell</th>
+            <th>Pub Category</th>
+            <th>Advertiser Type</th>
+        </tr>
+        {% for pub in publishers %}
+        <tr>
+            <td>{{ pub['partner name'] }}</td>
+            <td>{{ pub['trust score rating'] }}</td>
+            <td>{{ pub['age rank'] }}</td>
+            <td>{{ pub['ahrefs dr'] }}</td>
+            <td>{{ pub['semrush dr'] }}</td>
+            <td>{{ pub['moz dr'] }}</td>
+            <td>{{ pub['url'] }}</td>
+            <td>{{ pub['contact name'] }}</td>
+            <td>{{ pub['email'] }}</td>
+            <td>{{ pub['work'] }}</td>
+            <td>{{ pub['cell'] }}</td>
+            <td>{{ pub['pub category'] }}</td>
+            <td>{{ pub['advertiser type'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

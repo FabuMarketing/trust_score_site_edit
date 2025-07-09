@@ -85,7 +85,6 @@
              </span>
          </h3>
 
-
          <h3>Affiliate Brands</h3>
          <div class="table-container">
              <table>
@@ -117,7 +116,6 @@
                  {% endfor %}
              </table>
          </div>
-
 
          <h3>Top Similar Partners</h3>
          <div class="table-container">
@@ -157,7 +155,6 @@
              </table>
          </div>
 
-
          <div class="button-container">
              <button onclick="downloadCSV()">Download as CSV</button>
              <button onclick="downloadPDF()">Download as PDF</button>
@@ -172,7 +169,12 @@
              headers: { 'Content-Type': 'application/json' },
              body: JSON.stringify({ publishers: {{ similar_partners|tojson }} })
          })
-         .then(response => response.blob())
+         .then(response => {
+             if (!response.ok) {
+                 throw new Error('Failed to download CSV');
+             }
+             return response.blob();
+         })
          .then(blob => {
              const url = window.URL.createObjectURL(blob);
              const a = document.createElement('a');
@@ -182,12 +184,33 @@
              document.body.appendChild(a);
              a.click();
              window.URL.revokeObjectURL(url);
-         });
+         })
+         .catch(error => console.error('Error downloading CSV:', error));
      }
 
-
      function downloadPDF() {
-         alert('PDF generation not implemented yet.');
+         fetch('/download_pdf', {
+             method: 'POST',
+             headers: { 'Content-Type': 'application/json' },
+             body: JSON.stringify({ publishers: {{ similar_partners|tojson }} })
+         })
+         .then(response => {
+             if (!response.ok) {
+                 throw new Error('Failed to download PDF');
+             }
+             return response.blob();
+         })
+         .then(blob => {
+             const url = window.URL.createObjectURL(blob);
+             const a = document.createElement('a');
+             a.style.display = 'none';
+             a.href = url;
+             a.download = 'publishers.pdf';
+             document.body.appendChild(a);
+             a.click();
+             window.URL.revokeObjectURL(url);
+         })
+         .catch(error => console.error('Error downloading PDF:', error));
      }
  </script>
 </body>
