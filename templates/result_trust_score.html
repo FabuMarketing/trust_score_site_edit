@@ -6,7 +6,7 @@
  <style>
      body {
          font-family: 'Arial', sans-serif;
-         background-color: #f0f4f8;
+         background-color: #F0F4F8;
          padding: 0;
          margin: 0;
      }
@@ -48,10 +48,10 @@
          color: white;
      }
      tr:nth-child(even) {
-         background-color: #f9f9f9;
+         background-color: #F9F9F9;
      }
      tr:hover {
-         background-color: #f1f1f1;
+         background-color: #F1F1F1;
      }
      .button-container {
          text-align: center;
@@ -84,8 +84,6 @@
                  {{ trust_score }}
              </span>
          </h3>
-
-
          <h3>Affiliate Brands</h3>
          <div class="table-container">
              <table>
@@ -103,7 +101,7 @@
                      <td>{{ brand['affiliate brand'] }}</td>
                      <td>{{ brand['program joined date'] }}</td>
                      <td>{{ brand['publisher joined date'] }}</td>
-                     <td>{{ brand['revenue'] }}</td>
+                     <td>${{ brand['revenue'] | round(2) }}</td> <!-- Updated to include $ sign -->
                      <td>{{ brand['order/action'] }}</td>
                      <td>{{ brand['clicks'] }}</td>
                      <td>
@@ -117,8 +115,6 @@
                  {% endfor %}
              </table>
          </div>
-
-
          <h3>Top Similar Partners</h3>
          <div class="table-container">
              <table>
@@ -156,8 +152,6 @@
                  {% endfor %}
              </table>
          </div>
-
-
          <div class="button-container">
              <button onclick="downloadCSV()">Download as CSV</button>
              <button onclick="downloadPDF()">Download as PDF</button>
@@ -184,8 +178,6 @@
              window.URL.revokeObjectURL(url);
          });
      }
-
-
      function downloadPDF() {
          alert('PDF generation not implemented yet.');
      }
