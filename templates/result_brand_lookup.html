@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
- <title>Top Recommended Partners</title>
+ <title>Brand Lookup Result</title>
  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
  <style>
      body {
          font-family: 'Arial', sans-serif;
-         background-color: #f0f4f8;
+         background-color: #F0F4F8;
          padding: 0;
          margin: 0;
      }
@@ -27,14 +27,14 @@
          text-align: center;
      }
      .table-container {
-         overflow-x: auto; /* Enables horizontal scrolling */
+         overflow-x: auto;
          margin-top: 20px;
      }
      table {
          width: 100%;
          border-collapse: collapse;
          font-size: 14px;
-         min-width: 1200px; /* Ensures the table doesn't shrink too much */
+         min-width: 1200px;
      }
      table, th, td {
          border: 1px solid #ddd;
@@ -48,10 +48,10 @@
          color: white;
      }
      tr:nth-child(even) {
-         background-color: #f9f9f9;
+         background-color: #F9F9F9;
      }
      tr:hover {
-         background-color: #f1f1f1;
+         background-color: #F1F1F1;
      }
      .button-container {
          text-align: center;
@@ -77,12 +77,12 @@
      {% if error %}
          <h2 class="error">{{ error }}</h2>
      {% else %}
-         <h2>Top Recommended Partners</h2>
+         <h3>Top Recommended Partners</h3>
          <div class="table-container">
              <table>
                  <tr>
                      <th>Partner Name</th>
-                     <th>Trust Score Rating</th>
+                     <th>Trust Score</th>
                      <th>Age Rank</th>
                      <th>Ahrefs DR</th>
                      <th>Semrush DR</th>
@@ -116,7 +116,6 @@
          </div>
          <div class="button-container">
              <button onclick="downloadCSV()">Download as CSV</button>
-             <button onclick="downloadPDF()">Download as PDF</button>
              <button onclick="window.location.href='/'">Return to Search</button>
          </div>
      {% endif %}
@@ -134,16 +133,11 @@
              const a = document.createElement('a');
              a.style.display = 'none';
              a.href = url;
-             a.download = 'publishers.csv';
+             a.download = 'recommended_partners.csv';
              document.body.appendChild(a);
              a.click();
              window.URL.revokeObjectURL(url);
          });
-     }
-
-
-     function downloadPDF() {
-         alert('PDF generation not implemented yet.');
      }
  </script>
 </body>

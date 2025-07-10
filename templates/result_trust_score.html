@@ -101,7 +101,7 @@
                      <td>{{ brand['affiliate brand'] }}</td>
                      <td>{{ brand['program joined date'] }}</td>
                      <td>{{ brand['publisher joined date'] }}</td>
-                     <td>${{ brand['revenue'] | round(2) }}</td> <!-- Updated to include $ sign -->
+                     <td>${{ brand['revenue'] | round(2) }}</td>
                      <td>{{ brand['order/action'] }}</td>
                      <td>{{ brand['clicks'] }}</td>
                      <td>
@@ -154,7 +154,6 @@
          </div>
          <div class="button-container">
              <button onclick="downloadCSV()">Download as CSV</button>
-             <button onclick="downloadPDF()">Download as PDF</button>
              <button onclick="window.location.href='/'">Return to Search</button>
          </div>
      {% endif %}
@@ -177,9 +176,6 @@
              a.click();
              window.URL.revokeObjectURL(url);
          });
-     }
-     function downloadPDF() {
-         alert('PDF generation not implemented yet.');
      }
  </script>
 </body>

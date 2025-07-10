@@ -117,11 +117,10 @@ def result():
             lambda row: (row['order/action'] / row['clicks'] * 100) if row['clicks'] > 0 else 0, axis=1
         )
         affiliate_brands = affiliate_brands.to_dict(orient='records')
-        # Find top 10 most similar partners
-        df['score_diff'] = abs(df['trust score rating'] - trust_score)
+        # Find top 10 most similar partners - ALWAYS sort by Trust Score Rating (highest to lowest)
         top_similar = df[(df['pub category'] == selected['pub category'].iloc[0]) &
                          (df['advertiser type'] == selected['advertiser type'].iloc[0])].drop_duplicates(
-            subset=['partner name']).sort_values(by=['trust score rating'], ascending=False).head(10)  # Sort by Trust Score Rating
+            subset=['partner name']).sort_values(by=['trust score rating'], ascending=False).head(10)
         # Prepare data for the template
         similar_partners = top_similar[['partner name', 'trust score rating', 'age rank',
                                         'ahrefs dr', 'semrush dr', 'moz dr', 'url', 'contact name',
@@ -168,14 +167,31 @@ def publisher_lookup():
             matched_category = None
             matched_type = advertiser_types[best_match_index - len(pub_categories)]
         print(f":white_check_mark: Matched Pub Category: {matched_category}, Matched Advertiser Type: {matched_type}")
-        # Filter publishers based on the matched category and type
+        # Filter publishers based on the matched category and type - ALWAYS sort by Trust Score Rating (highest to lowest)
         filtered_publishers = df[
             (df['pub category'] == matched_category) | (df['advertiser type'] == matched_type)
-        ].drop_duplicates(subset=['partner name']).sort_values(by=['trust score rating'], ascending=False)  # Sort by Trust Score Rating
+        ].drop_duplicates(subset=['partner name']).sort_values(by=['trust score rating'], ascending=False)
+        
         # Ensure at least 10 publishers are displayed
         if len(filtered_publishers) < 10:
-            additional_publishers = df.sort_values(by=['trust score rating'], ascending=False).head(10 - len(filtered_publishers))
-            filtered_publishers = pd.concat([filtered_publishers, additional_publishers]).drop_duplicates(subset=['partner name']).head(10)
+            # Get the partner names already included to avoid duplicates
+            existing_partners = set(filtered_publishers['partner name'].tolist())
+            
+            # Get additional publishers by highest trust score, excluding already selected ones
+            additional_publishers = df[
+                ~df['partner name'].isin(existing_partners)
+            ].drop_duplicates(subset=['partner name']).sort_values(
+                by=['trust score rating'], ascending=False
+            ).head(10 - len(filtered_publishers))
+            
+            # Combine filtered and additional publishers
+            filtered_publishers = pd.concat([filtered_publishers, additional_publishers])
+            # ALWAYS sort the final result by Trust Score Rating (highest to lowest)
+            filtered_publishers = filtered_publishers.sort_values(by=['trust score rating'], ascending=False).head(10)
+        else:
+            # If we have more than 10, just take the top 10 (already sorted by trust score)
+            filtered_publishers = filtered_publishers.head(10)
+        
         # Prepare data for the template
         publishers = filtered_publishers[['partner name', 'trust score rating', 'age rank',
                                           'ahrefs dr', 'semrush dr', 'moz dr', 'url', 'contact name',
@@ -192,10 +208,14 @@ def publisher_lookup():
 def download_csv():
     try:
         publishers = request.json.get('publishers', [])
+        if not publishers:
+            return jsonify({"error": "No publishers data provided"}), 400
+        
         output = io.StringIO()
         writer = csv.DictWriter(output, fieldnames=publishers[0].keys())
         writer.writeheader()
         writer.writerows(publishers)
+        
         response = make_response(output.getvalue())
         response.headers["Content-Disposition"] = "attachment; filename=publishers.csv"
         response.headers["Content-Type"] = "text/csv"
